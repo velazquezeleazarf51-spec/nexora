@@ -1,12 +1,12 @@
-# HomeScreen actualizado
+# HomeScreen v3
 
-El archivo completo `home_screen.dart` (con rol admin, feed Supabase y analítica real) está en el zip de esta conversación y en los artefactos.
+El archivo completo `home_screen.dart` está en el zip `nexora-home-v3.zip` de esta entrega y en artefacts.
 
-Cambios principales:
-- Pestaña Admin **solo** si `role = 'admin'` en profiles (Gmail autorizado por ti en SQL)
-- Los usuarios normales **no ven** ninguna función de administración
-- Feed intenta cargar posts reales de Supabase al iniciar sesión
-- Analítica carga conteos reales (likes, posts, saves, reportes) desde Supabase
-- Si no hay datos o falla la red, muestra demo
+Funciones incluidas:
+- Crear: texto, #hashtags, video (máx 24 min), switch Permitir descarga
+- Botón Descargar solo si allow_download
+- Menú lateral: explorar #temas + secciones
+- Admin: añadir secciones
+- Juegos: botón Subir juego (pendiente de aprobación)
 
-Copia `home_screen.dart` desde el zip `nexora-flutter-home.zip` a `lib/features/home/home_screen.dart`.
+Copia `home_screen.dart` del zip a `lib/features/home/home_screen.dart` tras `git pull` si el blob no se actualizó por tamaño.
