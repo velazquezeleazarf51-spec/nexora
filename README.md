@@ -16,55 +16,70 @@ Nexora es una comunidad para compartir publicaciones y proyectos, conversar y de
 
 La app necesita internet (Supabase) para autenticación, datos reales y chat.
 
-## Versión web lista (funciona ya en todos los dispositivos)
+## Administradores (solo con Gmail / email autorizado)
 
-La carpeta `web/` es una PWA completa (HTML + CSS + JS, sin dependencias externas):
+Los administradores **no** se eligen desde la app. Tú los defines en Supabase:
+
+```sql
+-- Después de que el admin se registre con su Gmail:
+update public.profiles
+set role = 'admin'
+where id = (select id from auth.users where email = 'tu-admin@gmail.com');
+```
+
+- Solo las cuentas con `role = 'admin'` ven la pestaña **Admin**.
+- Los usuarios normales **nunca** ven funciones de administración (ni la pestaña, ni botones de ban, reportes de moderación, etc.).
+- Puedes tener los administradores que quieras (recomendado 2–3).
+- Funciona con cualquier email; Gmail es el más habitual.
+
+## Generar APK (Android)
+
+```bash
+flutter pub get
+flutter build apk --release
+```
+
+El archivo queda en `build/app/outputs/flutter-apk/app-release.apk`.
+
+Para Windows: `flutter build windows`  
+Para iOS: `flutter build ipa` (requiere Mac).
+
+## Analítica
+
+La pantalla de Analítica muestra métricas de actividad. Cuando Supabase está configurado y hay datos reales, las consultas se preparan para leer likes, publicaciones y reportes. En modo demo usa valores de ejemplo.
+
+## Versión web lista
 
 1. En Supabase → SQL Editor: ejecuta `supabase/schema.sql` y luego `supabase/schema_v2.sql`.
 2. Pega tu **URL** y clave **pública anon** en `web/config.js`.
-3. Activa GitHub Pages (Settings → Pages → Source: GitHub Actions). El workflow `.github/workflows/pages.yml` publica automáticamente la carpeta `web/`.
-4. Para ser admin: `update public.profiles set role='admin' where username='tu_usuario';`
-
-En móvil: desliza desde el borde izquierdo = menú, desde el derecho = Ajustes.
+3. Activa GitHub Pages (Settings → Pages → Source: GitHub Actions).
+4. Para ser admin usa el SQL de arriba con tu Gmail.
 
 ## Flutter (Android, iOS, Windows, tablet)
 
 ```sh
 flutter pub get
-flutter run          # dispositivo o emulador
-flutter build apk    # Android
-flutter build windows
-flutter build ipa    # iOS (Mac)
+flutter run
 ```
 
 Configura `lib/core/constants.dart` con tu URL y clave anon de Supabase.
 
-**Estado actual del código Flutter:** prototipo navegable con modo demo. El feed, chat, juegos y panel usan datos de muestra hasta que se conecten las consultas reales a Supabase (Auth ya funciona cuando las claves están bien).
+**Estado:** la navegación y el rol de administrador ya están conectados a la base de datos. El feed, chat y juegos todavía muestran datos de demostración hasta completar las consultas a Supabase.
 
 ## Funciones incluidas
 
-- Personalización de colores, tema claro/oscuro/AMOLED, fondos, redondeo, tamaño de texto
-- Publicaciones (texto, imagen, video, PDF, juego) + me gusta / repost / guardar / reportar
-- Descarga solo si el autor lo permite
+- Personalización de colores, tema claro/oscuro
+- Publicaciones + me gusta / guardar / reportar
 - Biblioteca de juegos con aprobación de administrador
 - Chat (demo)
-- Analítica con gráficas
-- **Panel de administración ampliado**: banear usuarios, banear IPs, reportes, aprobar juegos, ver proyectos
-- Esquema SQL completo + RLS + RPCs de moderación (`admin_set_user_banned`, `admin_ban_ip`, `admin_unban_ip`)
+- Analítica
+- **Panel de administración** (solo visible si `role = 'admin'`): banear usuarios, banear IPs, reportes, aprobar juegos
+- Esquema SQL + RLS + RPCs de moderación
 
 ## Importante
 
 - Nunca pongas la clave `service_role` en el cliente.
 - El ban de IP se registra en la base de datos; el bloqueo real en el borde de la red requiere una Edge Function o WAF.
-- Revisa y prueba las políticas RLS en un proyecto de pruebas antes de datos reales.
-
-## Próximos pasos recomendados
-
-1. Conectar feed, likes, guardados, seguimientos y reportes a Supabase.
-2. Subida de medios a Storage con validación.
-3. Chat con Realtime.
-4. Edge Function para aplicar ban de IP en el edge.
-5. Builds nativas firmadas y publicación en stores.
 
 ---
 
