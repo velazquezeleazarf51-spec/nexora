@@ -1,0 +1,57 @@
+name: nexora
+description: Nexora - Red social más libre
+publish_to: 'none'
+version: 1.0.0+1
+
+environment:
+  sdk: '>=3.2.0 <4.0.0'
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+  # Backend
+  supabase_flutter: ^2.5.6
+
+  # Estado y almacenamiento local
+  flutter_riverpod: ^2.5.1
+  shared_preferences: ^2.2.3
+  hive: ^2.2.3
+  hive_flutter: ^1.1.0
+
+  # UI y utilidades
+  cupertino_icons: ^1.0.8
+  google_fonts: ^6.2.1
+  cached_network_image: ^3.3.1
+  image_picker: ^1.1.2
+  video_player: ^2.9.1
+  chewie: ^1.8.1
+  path_provider: ^2.1.3
+  permission_handler: ^11.3.1
+  url_launcher: ^6.3.0
+  intl: ^0.19.0
+  uuid: ^4.4.0
+  flutter_colorpicker: ^1.1.0
+
+  # Iconos
+  iconsax: ^0.0.8
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^4.0.0
+  hive_generator: ^2.0.1
+  build_runner: ^2.4.11
+
+flutter:
+  uses-material-design: true
+
+  assets:
+    - assets/images/
+    - assets/icons/
+    - assets/fonts/
+
+  # fonts:
+  #   - family: CustomFont
+  #     fonts:
+  #       - asset: assets/fonts/CustomFont-Regular.ttf
